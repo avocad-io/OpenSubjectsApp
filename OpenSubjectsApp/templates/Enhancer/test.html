@@ -1,0 +1,12 @@
+{% extends 'Enhancer/index.html' %}
+
+{% block test %}
+    {% if bn_results %}
+    <a href="downloadjson"><button>Download json</button></a>
+    <a href="downloadcsv"><button>Download csv</button></a>
+    <div style="height:400px;margin-top:5%;margin-right:5%;margin-bottom:5%;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+        {{ bn_results }}
+    </div>
+    {% endif %}
+{% endblock %}
+
