@@ -1,28 +1,43 @@
-<!-- <div contenteditable="true">Pokaż dupe!</div> -->
-
-<!-- <label for="name">Name (4 to 8 characters):</label>
-
-<input type="text" id="name" name="name" required
-       minlength="4" maxlength="8" size="10"> -->
-
-
-
-<div class="flexbox-container" style="display:flex;">
-    <div class="sidebar" style="flex:1;">
-        <div class='m-5'> 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="POST">
-                {% csrf_token %}
-                <input type="search" class="form-control" placeholder="Search..." aria-label="Search" name='search_query'>
-            </form>
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Enhancer</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    </head>
+    <body>
+        <div class="flexbox-container">
+            <div class="input-block">
+                <form method="POST">
+                    {% csrf_token %}
+                    <!--
+                    wielolinowy textarea ale trzeba dodac button
+                    <textarea type="search" class="form-control" placeholder="Search..." aria-label="Search" name='search_query'></textarea>
+                    -->
+                    <input type="search" class="search-input" placeholder="Search..." aria-label="Search" name='search_query'>  
+                </form>
+            </div>
+            <div class="results-block">
+                <div>
+                    <div class="results">
+                        {% block results %}
+                        {% endblock %} 
+                    </div>
+                    <div class="downloads">
+                        {% block downloads %}
+                        {% endblock %}
+                    </div>
+                </div> 
+            </div>
         </div>
-    </div>
-    <div class="main" style="flex:1;">
-        <div>
-            {% block test %}
-            {% endblock %}
-        </div> 
-    </div>
-</div>
+    </body>
+    <footer>
+    </footer>
+</html>
+
+
+
+
 
 
 

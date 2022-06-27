@@ -18,6 +18,13 @@ import pandas as pd
 def index(request):
     if request.method == 'POST':
         user_query = request.POST['search_query']
+
+        # testowa czesc zeby nie czekac na odp bn
+        if user_query == "test":
+            with open("response1.json", "r", encoding="utf-8") as f:
+                data = json.load(f)
+            return render(request, 'Enhancer/test.html', {"bn_results": data})
+
         #to jest brzydkie i trzeba to zmienić
         bn_results = get_subj(user_query)
         bn_results_json = json.loads(bn_results)
