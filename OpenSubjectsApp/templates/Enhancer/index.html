@@ -8,13 +8,19 @@
     <body>
         <div class="flexbox-container">
             <div class="input-block">
-                <form method="POST">
-                    {% csrf_token %}
+                
+                    
+                    
+                    <textarea type="text" form="query-form" placeholder="Search..." name='search_query'></textarea>
+                    
                     <!--
-                    wielolinowy textarea ale trzeba dodac button
-                    <textarea type="search" class="form-control" placeholder="Search..." aria-label="Search" name='search_query'></textarea>
-                    -->
                     <input type="search" class="search-input" placeholder="Search..." aria-label="Search" name='search_query'>  
+                    -->
+            </div>
+            <div class="buttons">
+                <form id="query-form" method="POST">
+                    {% csrf_token %}
+                    <input type="submit">
                 </form>
             </div>
             <div class="results-block">
