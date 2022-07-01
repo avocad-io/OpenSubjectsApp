@@ -15,7 +15,7 @@ import pandas as pd
 #     return HttpResponse("Hello, world. You're at the polls index.")
 
 
-def index(request):
+def enhancer_query_bn(request):
     if request.method == 'POST':
         user_query = request.POST['search_query']
 
@@ -23,7 +23,7 @@ def index(request):
         if user_query == "test":
             with open("response1.json", "r", encoding="utf-8") as f:
                 data = json.load(f)
-            return render(request, 'Enhancer/test.html', {"bn_results": data})
+            return render(request, 'Enhancer/results.html', {"bn_results": data})
 
         #to jest brzydkie i trzeba to zmienić
         bn_results = get_subj(user_query)
@@ -33,10 +33,10 @@ def index(request):
         with open("response1.json", "w", encoding="utf-8") as f:
             json.dump(bn_results, f, ensure_ascii= False)
         #return HttpResponse(bn_results,content_type="application/json")
-        return render(request, 'Enhancer/test.html', {"bn_results": bn_results})
+        return render(request, 'Enhancer/results.html', {"bn_results": bn_results})
 
     else:
-        return render(request, 'Enhancer/index.html')
+        return render(request, 'Enhancer/enhancer.html')
 
 
 def downloadjson(request):
