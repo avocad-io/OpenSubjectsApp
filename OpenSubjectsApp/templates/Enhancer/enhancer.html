@@ -1,38 +1,36 @@
+{% extends 'MainPage/index.html' %}
 {% load static %}
 
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Enhancer</title>
-        <link rel="stylesheet" href="{% static '/Enhancer/css/style.css' %}" type="text/css">
-    </head>
-    <body>
-        <div class="flexbox-container">
-            <div class="input-block">
-                <textarea class="input-textarea" type="text" form="query-form" placeholder="Search..." name='search_query'></textarea>
-            </div>
-            <div class="buttons">
-                <form id="query-form" method="POST">
-                    {% csrf_token %}
-                    <input class="submit-button" type="submit">
-                </form>
-                <div class="downloads">
-                    {% block downloads %}
-                    {% endblock %}
-                </div>
-            </div>
-            <div class="results-block">
-                <div>
-                    <div class="results">
-                        {% block results %}
-                        {% endblock %} 
-                    </div>   
-                </div> 
+{% block style %}
+    <link rel="stylesheet" href="{% static '/Enhancer/css/style.css' %}" type="text/css">
+{% endblock %}
+
+{% block content %}
+    <div class="flexbox-container">
+        <div class="input-block">
+            <textarea class="input-textarea" type="text" form="query-form" placeholder="Search..." name='search_query'></textarea>
+        </div>
+        <div class="buttons">
+            <form id="query-form" method="POST">
+                {% csrf_token %}
+                <input class="submit-button" type="submit">
+            </form>
+            <div class="downloads">
+                {% block downloads %}
+                {% endblock %}
             </div>
         </div>
-    </body>
-</html>
+        <div class="results-block">
+            <div>
+                <div class="results">
+                    {% block results %}
+                    {% endblock %} 
+                </div>   
+            </div> 
+        </div>
+    </div>
+{% endblock %}
 
 
 
