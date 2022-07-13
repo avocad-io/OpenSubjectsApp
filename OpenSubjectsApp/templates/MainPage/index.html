@@ -10,15 +10,23 @@
     </head>
     <body>
         <div class="topnav">
-            <a class="active" href="#home">Home</a>
+            <a class="active" href="/">Home</a>
             <a href="/enhancer/">Enhancer</a>
             {% if user.is_authenticated %}
-                <a href="">Logout</a>
+                <a href="{% url 'logout_user' %}">Logout</a>
             {% else %}
-                <a href="">Login</a>
+                <a href="{% url 'login_user' %}">Login</a>
+                <a href="{% url 'register_user' %}">Register</a>
             {% endif %}
         </div>
+        {% if messages %}
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        {% endif %}
+
         {% block content %}
+            <h1>HOMEPAGE</h1>
         {% endblock %}
     </body>
     <footer>
