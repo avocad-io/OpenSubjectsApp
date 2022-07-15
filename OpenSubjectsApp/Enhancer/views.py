@@ -27,7 +27,7 @@ def enhancer_query_bn(request):
             return render(request, 'Enhancer/results.html', {"bn_results": data})
 
         bn_results = get_subj(user_query)
-        request.session['response_dict'] = bn_results
+        request.session['bn_response_dict'] = bn_results
         return render(request, 'Enhancer/results.html', {"bn_results": bn_results})
 
     else:
@@ -35,12 +35,8 @@ def enhancer_query_bn(request):
 
 
 def downloadjson(request):
-    bn_results = request.session.get('response_dict')
-    with open('response.json', 'w', encoding='utf-8') as jfile:
-            json.dump(bn_results, jfile, ensure_ascii=False)
-    with open("response.json", "r", encoding="utf-8") as f:
-        data = json.load(f)
-    response = HttpResponse(data, content_type='application/json')
+    bn_results = request.session.get('bn_response_dict')
+    response = HttpResponse(json.dumps(bn_results, ensure_ascii=False), content_type='application/json')
     response['Content-Disposition'] = 'attachment; filename=cokolwiek.json'
     return response
 
