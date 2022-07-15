@@ -6,13 +6,17 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 def login_user(request):
+    next_url = request.GET.get('next')
     if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/')
+            if next_url:
+                return redirect(next_url)
+            else:
+               return redirect('/')
         else:
             messages.success(request, "LOGIN ERROR")
             return render(request, 'users/login.html')  
@@ -32,9 +36,8 @@ def register_user(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
             user = authenticate(request, username=username, password=password)
-            login(request, user)
             messages.success(request, "Registration successful!")
-            return redirect('/')
+            return redirect('login_user')
     else:
         form = UserCreationForm()
     return render(request, 'users/register_user.html', {'form': form})

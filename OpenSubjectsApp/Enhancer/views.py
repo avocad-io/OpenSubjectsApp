@@ -5,6 +5,7 @@ from django.http import StreamingHttpResponse, Http404
 from django.conf import settings
 from wsgiref.util import FileWrapper
 from django.core import serializers
+from django.contrib.auth.decorators import login_required
 
 import mimetypes
 import os
@@ -14,25 +15,19 @@ import pandas as pd
 # def index(request):
 #     return HttpResponse("Hello, world. You're at the polls index.")
 
-
+@login_required
 def enhancer_query_bn(request):
     if request.method == 'POST':
         user_query = request.POST['search_query']
 
         # testowa czesc zeby nie czekac na odp bn
         if user_query == "test":
-            with open("response1.json", "r", encoding="utf-8") as f:
+            with open("response.json", "r", encoding="utf-8") as f:
                 data = json.load(f)
             return render(request, 'Enhancer/results.html', {"bn_results": data})
 
-        #to jest brzydkie i trzeba to zmienić
         bn_results = get_subj(user_query)
-        bn_results_json = json.loads(bn_results)
-        with open("response.json", "w", encoding="utf-8") as f:
-            json.dump(bn_results_json, f, ensure_ascii= False)
-        with open("response1.json", "w", encoding="utf-8") as f:
-            json.dump(bn_results, f, ensure_ascii= False)
-        #return HttpResponse(bn_results,content_type="application/json")
+        request.session['response_dict'] = bn_results
         return render(request, 'Enhancer/results.html', {"bn_results": bn_results})
 
     else:
@@ -40,14 +35,20 @@ def enhancer_query_bn(request):
 
 
 def downloadjson(request):
-    with open("response1.json", "r", encoding="utf-8") as f:
+    bn_results = request.session.get('response_dict')
+    with open('response.json', 'w', encoding='utf-8') as jfile:
+            json.dump(bn_results, jfile, ensure_ascii=False)
+    with open("response.json", "r", encoding="utf-8") as f:
         data = json.load(f)
     response = HttpResponse(data, content_type='application/json')
-    response['Content-Disposition'] = 'attachment; filename=export.json'
+    response['Content-Disposition'] = 'attachment; filename=cokolwiek.json'
     return response
 
 
 def downloadcsv(request):
+    bn_results = request.session.get('response_dict')
+    df = pd.DataFrame.from_dict(bn_results)
+    df.to_csv('df_to_export.csv', index=False)
     with open("df_to_export.csv", 'rb') as fh:
         response = HttpResponse(fh.read(), content_type="application/csv")
         response['Content-Disposition'] = 'inline; filename=df_to_export.csv'

@@ -5,6 +5,7 @@ import os
 import regex as re
 import json
 import requests
+import ast
 
 
 def get_data(url: str) -> list:
@@ -38,6 +39,6 @@ def get_subj(sub: str, header: str = "subjectCategory", field_numbers: list = ["
     subjects_dict = {}
     subjects_dict[sub] = subjects
     json_object = json.dumps(subjects_dict, indent = 4, ensure_ascii=False).encode("utf8")
-    return json_object.decode()
+    return ast.literal_eval(json_object.decode())
 
 
