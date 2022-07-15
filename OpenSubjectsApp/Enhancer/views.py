@@ -42,7 +42,7 @@ def downloadjson(request):
 
 
 def downloadcsv(request):
-    bn_results = request.session.get('response_dict')
+    bn_results = request.session.get('bn_response_dict')
     df = pd.DataFrame.from_dict(bn_results)
     df.to_csv('df_to_export.csv', index=False)
     with open("df_to_export.csv", 'rb') as fh:
