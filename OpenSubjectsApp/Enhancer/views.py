@@ -6,6 +6,7 @@ from django.conf import settings
 from wsgiref.util import FileWrapper
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
+from pymongo import MongoClient
 
 import mimetypes
 import os
@@ -15,6 +16,9 @@ import pandas as pd
 
 def enhancer_query_bn(request):
     if request.method == 'POST':
+        #test
+        mycol.insert_one(test_dict)
+        #test
         user_query = request.POST['search_query']
         bn_results = get_subj(user_query)
         request.session['bn_response_dict'] = bn_results
@@ -38,3 +42,13 @@ def downloadcsv(request):
     response['Content-Disposition'] = 'inline; filename=results.csv'
     df.to_csv(path_or_buf=response, index=False)
     return response
+
+
+client = MongoClient(host='localhost',
+                    port=27017
+                    )
+db_handle = client['testdb']
+mycol = db_handle['testcol']
+
+test_dict = {'kto': 'Patryk Hubar',
+            'czy spóźniony': 'ciągle True'}
